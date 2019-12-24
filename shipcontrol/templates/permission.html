@@ -1,0 +1,29 @@
+{% extends 'base.html' %}{% load static %} Home{% block content %}
+<div style="text-align:center">Permission Denied {{ user.username }}! !!</div>
+
+<body class="error-page">
+
+    <!--  content -->
+    <section>
+        <div class="error403">
+            <h1>403</h1>
+        </div>
+        <p class="description">
+            You're not the captain of this ship.</p>
+
+        <p>Please contact an authorized person</p>
+
+
+
+
+
+
+        <a href=" {% url 'home' %} " class="btn btn-danger403 btn-primary btn-large">
+                Go Back </a> {{ except }}
+    </section>
+
+
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</body>{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}{% load static %} {% block title %}Home{% endblock %} {% block content %} {% if user.is_authenticated %}
+<div style="text-align:center">Hi {{ user.username }}! Welocme to ShipControl!!</div>
+
+
+<link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
+</head>
+
+<meta charset="utf-8">
+<title>Ships Table</title>
+<link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active">Ship Control</li>
+        </ol>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Ship</th>
+                    <th>Flag</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>{% for ship in ships %}
+                    <td>
+                        <a href="{% url 'ship_lastport' ship.pk %}">{{ ship.name }}</a></td>
+
+
+                    <td>
+                        {{ ship.flag }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Ship</th>
+                    <th>Cargo</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>{% for ls in cargo %}
+                    <td>
+                        {{ ls.ship}}</a>
+                    </td>
+
+
+                    <td>
+                        {{ ls.cargo }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    </div>
+</body>
+
+</html>
+<tbody>
+
+</tbody>
+
+</html>
+<p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+
+
+
+<!-- code suppressed for brevity -->
+
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">login</a> {% endif %} {% endblock %}
+
+<h1>Ships</h1>

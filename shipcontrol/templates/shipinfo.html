@@ -1,0 +1,105 @@
+{% extends 'base.html' %}{% load static %}{% block title %}Home{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <form method="post" id="shipinfo">
+        {% csrf_token %}
+        <div class="form-group">
+            <select name="captain" id="captain">
+                <option value=""> Select Captain</option>
+                {% for ms in usersList %}
+                <option value="{{ms}}">{{ms}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <select name="ship" id="ship">
+                <option value=""> Select ship</option>
+                {% for sh in ship %}
+                <option value="{{sh}}">{{sh}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_subject">imo</label>
+            <input type="text" class="form-control" id="imo" name="imo">
+        </div>
+        <div class="form-group">
+            <label for="id_message">mmsi</label>
+            <textarea class="form-control" id="mmsi" name="mmsi" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_message">callsign</label>
+            <textarea class="form-control" id="callsign" name="callsign" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_message">gross</label>
+            <textarea class="form-control" id="gross" name="gross" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_message">deadweight</label>
+            <textarea class="form-control" id="deadweight" name="deadweight" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_message">buildyear</label>
+            <textarea class="form-control" id="buildyear" name="buildyear" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success" onclick="addinfo()">send</button>
+    </form>
+
+</body>
+
+</html>
+
+<script>
+    function addinfo(obj) {
+        var btnObj = $(obj);
+        btnObj.attr('disabled', true);
+        var server_data = {};
+        var form = document.getElementById('shipinfo');
+        for (var i = 0; i < form.length; ++i) {
+            var name = form[i].name;
+            var value = form[i].value;
+            idx = $.inArray(name, value);
+            if (idx >= 0 && value.length == 0) {
+                window.wxc.xcConfirm(" Please note that required fields cannot be empty~ ", window.wxc.xcConfirm.typeEnum.error);
+                btnObj.removeAttr('disabled');
+                return false;
+            };
+            if (value.length != 0 && name.length != 0) {
+                server_data[name] = value;
+            };
+        };
+        console.log(server_data)
+        $.ajax({
+            dataType: "JSON ",
+            url: '/shipinformation/',
+            type: "POST ",
+            data: server_data,
+            success: function(response) {
+                btnObj.removeAttr('disabled');
+                if (response["code "] == 200) {
+                    window.wxc.xcConfirm(response["msg "], window.wxc.xcConfirm.typeEnum.success);
+                } else {
+                    window.wxc.xcConfirm(response["data "], window.wxc.xcConfirm.typeEnum.error);
+                }
+
+            },
+            error: function(response) {
+                btnObj.removeAttr('disabled');
+                window.wxc.xcConfirm(response["data "], window.wxc.xcConfirm.typeEnum.error);
+            }
+        });
+    }
+</script>

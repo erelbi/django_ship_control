@@ -1,0 +1,83 @@
+ {% extends 'base.html' %} {% block title %} {{ ship.name }} - {{ block.super }} {% endblock %} {% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Ship Last Port  Information</a></li>
+
+{% endblock %} {% block content %}
+<div class="jumbotron">
+    <h4>M/V {{information.ship}}</h4>
+    <p>Master: {{information.captain.master}}</p>
+</div>
+
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">type</th>
+            <th colspan="2">Information</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td colspan="2">imo number</td>
+            <td>{{information.imo}}</td>
+
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td colspan="2">MMSI number</td>
+            <td>{{information.mmsi}}</td>
+
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Call Sign</td>
+            <td>{{information.callsign}}</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td colspan="2">Gross Tonage</td>
+            <td>{{information.gross}}</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td colspan="2">Dead Weight</td>
+            <td>{{information.deadweight}}</td>
+        </tr>
+        <tr>
+            <th scope="row">6</th>
+            <td colspan="2">Build Year</td>
+            <td>{{information.buildyear}}</td>
+        </tr>
+        <tr>
+            <th scope="row">7</th>
+            <td colspan="2">Cargo Information</td>
+            <td>{{remark.cargo}}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="card">
+    <h5 class="card-header">PSC REPORT</h5>
+    <div class="card-body">
+
+        <h5 class="card-title">inspector : {{psc.psc|default_if_none:"--"}}</h5>
+        <h5 class="card-title">inspector date : {{psc.updated_at|default_if_none:"--"}}</h5>
+
+        <p class="card-text"> {{psc.statement|default_if_none:"--"}}</p>
+
+    </div>
+</div>
+<tr>
+    <td>
+        <a href="{% url 'info_edit' information.ship.pk %}">{{ information.ship }} Information Edit</a></td>
+
+
+    <td>
+
+    </td>
+</tr>
+
+
+
+</tbody>
+{% endblock %}
